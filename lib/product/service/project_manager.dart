@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 class ProjectNetworkManager {
   ProjectNetworkManager._() {
-    _dio = Dio(BaseOptions(baseUrl: "https://api.api-ninjas.com/v1/weather"));
+    _dio = Dio(BaseOptions(baseUrl: "https://api.api-ninjas.com/v1"));
   }
   late final Dio _dio;
 
