@@ -17,10 +17,10 @@ class HomeService extends IHomeService {
   Future<WeatherModel?> fetchWeather() async {
     try {
       final response = await dio.get(
-        "weather",
+        "",
         queryParameters: queryParams,
         options: Options(
-          headers: headers, // Header bilgilerini options içinde belirtiyoruz
+          headers: headers,
           followRedirects: false,
           validateStatus: (status) {
             return status! < 500;
