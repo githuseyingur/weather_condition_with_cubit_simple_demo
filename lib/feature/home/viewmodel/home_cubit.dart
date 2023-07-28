@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:weather_app/feature/home/model/weather_model.dart';
 import 'package:weather_app/feature/home/service/i_home_service.dart';
 
@@ -9,7 +8,7 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this.homeService) : super(HomeInitial());
 
   final IHomeService homeService;
-  WeatherModel weatherModel = WeatherModel();
+  WeatherModel? weatherModel = WeatherModel();
 
   bool isPagingLoading = false;
 
@@ -18,13 +17,13 @@ class HomeCubit extends Cubit<HomeState> {
 
     emit(HomeLoading(true));
     try {
-      weatherModel = (await homeService.fetchWeather()) ?? WeatherModel();
+      weatherModel = (await homeService.fetchWeather());
       _changePagingLoading();
 
-      if (weatherModel == null) {
-        emit(HomeItemLoaded(weatherModel));
+      if (weatherModel != null) {
+        emit(HomeItemLoaded(weatherModel!));
       }
-      emit(HomeItemLoaded(weatherModel));
+      emit(HomeItemLoaded(weatherModel!));
     } catch (e) {
       emit(HomeError(weatherModel.toString()));
     }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:weather_app/feature/home/model/weather_model.dart';
 import 'package:weather_app/feature/home/service/i_home_service.dart';
@@ -25,7 +27,16 @@ class HomeService extends IHomeService {
           },
         ),
       );
-      print(response.toString());
-    } catch (e) {}
+      print(response);
+      var resData = response.data;
+      if (response.statusCode == HttpStatus.ok) {
+        var result = WeatherModel().fromJson(resData);
+        return result;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
   }
 }

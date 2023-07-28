@@ -7,28 +7,28 @@ part of 'weather_model.dart';
 // **************************************************************************
 
 WeatherModel _$WeatherModelFromJson(Map<String, dynamic> json) => WeatherModel(
-      cloudPct: json['cloudPct'] as int?,
+      cloudPct: json['cloud_pct'] as int?,
       temp: json['temp'] as int?,
-      feelsLike: json['feelsLike'] as int?,
+      feelsLike: json['feels_like'] as int?,
       humidity: json['humidity'] as int?,
-      minTemp: json['minTemp'] as int?,
-      maxTemp: json['maxTemp'] as int?,
-      windSpeed: (json['windSpeed'] as num?)?.toDouble(),
-      windDegrees: json['windDegrees'] as int?,
+      minTemp: json['min_temp'] as int?,
+      maxTemp: json['max_temp'] as int?,
+      windSpeed: (json['wind_speed'] as num?)?.toDouble(),
+      windDegrees: json['wind_degrees'] as int?,
       sunrise: json['sunrise'] as int?,
       sunset: json['sunset'] as int?,
     );
 
 Map<String, dynamic> _$WeatherModelToJson(WeatherModel instance) =>
     <String, dynamic>{
-      'cloudPct': instance.cloudPct,
+      'cloud_pct': instance.cloudPct,
       'temp': instance.temp,
-      'feelsLike': instance.feelsLike,
+      'feels_like': instance.feelsLike,
       'humidity': instance.humidity,
-      'minTemp': instance.minTemp,
-      'maxTemp': instance.maxTemp,
-      'windSpeed': instance.windSpeed,
-      'windDegrees': instance.windDegrees,
+      'min_temp': instance.minTemp,
+      'max_temp': instance.maxTemp,
+      'wind_speed': instance.windSpeed,
+      'wind_degrees': instance.windDegrees,
       'sunrise': instance.sunrise,
       'sunset': instance.sunset,
     };
