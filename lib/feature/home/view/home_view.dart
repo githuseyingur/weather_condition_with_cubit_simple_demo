@@ -31,68 +31,27 @@ class HomeView extends StatelessWidget {
             ),
             body: SingleChildScrollView(
               child: SizedBox(
-                height: context.dynamicHeight(0.85),
-                child: ListView.builder(
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: context.extremeAllPadding,
-                      padding: context.extremeAllPadding,
-                      decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(12)),
-                      height: context.dynamicHeight(0.3),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            index.toString(),
-                            style: const TextStyle(
-                                color: Colors.amber, fontSize: 35),
-                          ),
-                          Text(
-                            context
-                                .read<HomeCubit>()
-                                .weatherModel!
-                                .cloudPct
-                                .toString(),
-                            style: const TextStyle(
-                                color: Colors.blue, fontSize: 12),
-                          ),
-                          Text(
-                            context
-                                .read<HomeCubit>()
-                                .weatherModel!
-                                .temp
-                                .toString(),
-                            style: const TextStyle(
-                                color: Colors.cyan, fontSize: 16),
-                          ),
-                          Text(
-                            context
-                                .read<HomeCubit>()
-                                .weatherModel!
-                                .feelsLike
-                                .toString(),
-                            style: const TextStyle(
-                                color: Colors.purple, fontSize: 25),
-                          )
-                          // Text(
-                          //   context
-                          //       .read<HomeCubit>()
-                          //       .allItems[index]
-                          //       .tourData
-                          //       .tourFeatures[0]
-                          //       .toString(),
-                          //   style: TextStyle(
-                          //       color: AppColors.mainPrimary, fontSize: 35),
-                          //),
-                        ],
+                  height: context.dynamicHeight(0.60),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Card(
+                      child: Center(
+                        child: Column(
+                          children: [
+                            const Text(
+                              "Konya",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(
+                              "${context.read<HomeCubit>().weatherModel!.temp}C°",
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
                       ),
-                    );
-                  },
-                ),
-              ),
+                    ),
+                  )),
             ),
           ),
         );
