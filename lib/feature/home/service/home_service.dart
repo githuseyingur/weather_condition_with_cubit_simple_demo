@@ -8,14 +8,17 @@ class HomeService extends IHomeService {
   HomeService(super.dio);
 
   Map<String, dynamic> queryParamsCityName = {
+    //! taşı
     "city": "Konya",
   };
 
   Map<String, dynamic> queryParamsLocation = {
+    //!taşı
     "lat": "42",
     "lon": "42",
   };
   Map<String, dynamic> headers = {
+    //!taşı
     "X-Api-Key": "B2RcmoUpjxoV/dbSzaYhGg==AjPO6hEFRZDSBtdu",
     // More headers...
   };

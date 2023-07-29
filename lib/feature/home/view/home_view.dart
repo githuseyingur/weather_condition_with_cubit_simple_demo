@@ -20,17 +20,38 @@ class HomeView extends StatelessWidget {
           const SizedBox(
             height: 40,
           ),
-          const Text("Search City Name"),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: TextFormField(
               //! CITY PICKER KOY!
+              style: TextStyle(color: Colors.grey[700]),
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Search City',
+                  hintStyle: TextStyle(
+                      color: Colors.grey[400],
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                  prefixIcon: const Icon(Icons.search),
+                  prefixIconColor: Colors.grey,
+                  filled: true,
+                  fillColor: Colors.grey[200]),
+
+              cursorColor: Colors.orangeAccent,
+              cursorWidth: 1.6,
+              cursorHeight: 20,
+              textAlignVertical: TextAlignVertical.center,
               controller: cityInputController,
             ),
           ),
           const SizedBox(
             height: 50,
           ),
+          ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orangeAccent),
+              child: const Text("Search")),
           BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
             if (state is HomeInitial || state is HomeLoading) {
               return const LoadingView();
