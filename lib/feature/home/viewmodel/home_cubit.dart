@@ -17,7 +17,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     emit(HomeLoading(true));
     try {
-      weatherModel = (await homeService.fetchWeather());
+      weatherModel = (await homeService.fetchWeatherByCityName());
       _changePagingLoading();
 
       if (weatherModel != null) {

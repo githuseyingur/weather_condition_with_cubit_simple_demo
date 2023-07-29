@@ -6,5 +6,5 @@ abstract class IHomeService {
 
   IHomeService(this.dio);
 
-  Future<WeatherModel?> fetchWeather();
+  Future<WeatherModel?> fetchWeatherByCityName();
 }
