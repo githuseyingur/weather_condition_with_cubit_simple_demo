@@ -30,10 +30,16 @@ environment:
 dependencies:
   #Core
   equatable: ^2.0.5
+
   #Route
   auto_route: ^7.4.0
+
   #States
   flutter_bloc: ^8.1.2
+  
+  #Location
+  geocoding: ^2.1.0
+  geolocator: ^9.0.2
 
   cupertino_icons: ^1.0.2
   dio: ^5.0.3
@@ -42,6 +48,8 @@ dependencies:
     sdk: flutter
   path_provider: ^2.0.14
   shared_preferences: ^2.0.20
+  lottie: ^2.5.0
+
 
 dev_dependencies:
   auto_route_generator: ^7.1.1
@@ -70,6 +78,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/png/
+    - assets/animations/
    
   # To add assets to your application, add an assets section, like this:
   # assets:

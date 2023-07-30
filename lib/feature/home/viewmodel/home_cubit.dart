@@ -9,6 +9,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   final IHomeService homeService;
   WeatherModel? weatherModel = WeatherModel();
+  String? currentLocationCity;
 
   bool isPagingLoading = false;
 
@@ -17,6 +18,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     emit(HomeLoading(true));
     try {
+      currentLocationCity = (await homeService.getCityNameByCurrentLocation());
       weatherModel = (await homeService.fetchWeatherByCityName());
       _changePagingLoading();
 

@@ -8,6 +8,7 @@ extension ResponsiveExtension on BuildContext {
 }
 
 extension AllPaddings on BuildContext {
+  //! TANIMLAA
   EdgeInsets get zeroAllPadding => const EdgeInsets.all(0);
   EdgeInsets get lowAllPadding => const EdgeInsets.all(8);
   EdgeInsets get midAllPadding => const EdgeInsets.all(16);
