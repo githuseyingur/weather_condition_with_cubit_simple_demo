@@ -46,9 +46,8 @@ dependencies:
   
   flutter:
     sdk: flutter
-  path_provider: ^2.0.14
-  shared_preferences: ^2.0.20
   lottie: ^2.5.0
+  intl: ^0.18.1
 
 
 dev_dependencies:

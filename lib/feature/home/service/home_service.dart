@@ -11,7 +11,7 @@ class HomeService extends IHomeService {
 
   Map<String, dynamic> queryParamCityName = {
     //! taşı
-    "city": "",
+    "city": "Konya",
   };
 
   // Map<String, dynamic> queryParamsLocation = {
@@ -53,6 +53,7 @@ class HomeService extends IHomeService {
     }
   }
 
+  @override
   Future<String?> getCityNameByCurrentLocation() async {
     LocationPermission permission;
     permission = await Geolocator.requestPermission();
@@ -62,9 +63,8 @@ class HomeService extends IHomeService {
         return Future.error('Location Not Available');
       }
     } else {}
-    var position = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.best)
-        .timeout(const Duration(seconds: 5));
+    var position =
+        await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).timeout(const Duration(seconds: 5));
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
         position.latitude,

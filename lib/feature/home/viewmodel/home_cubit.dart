@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/feature/home/model/weather_model.dart';
 import 'package:weather_app/feature/home/service/i_home_service.dart';
+import 'package:weather_app/product/enums/sky_condition.dart';
 
 part 'home_state.dart';
 
@@ -10,6 +11,9 @@ class HomeCubit extends Cubit<HomeState> {
   final IHomeService homeService;
   WeatherModel? weatherModel = WeatherModel();
   String? currentLocationCity;
+  SkyCondition? skyCondition;
+  DateTime? sunRise;
+  DateTime? sunSet;
 
   bool isPagingLoading = false;
 
@@ -20,10 +24,27 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       currentLocationCity = (await homeService.getCityNameByCurrentLocation());
       weatherModel = (await homeService.fetchWeatherByCityName());
-      _changePagingLoading();
 
       if (weatherModel != null) {
+        if (20 >= int.parse(weatherModel!.cloudPct.toString())) {
+          skyCondition = SkyCondition.clear;
+        } else if (20 < int.parse(weatherModel!.cloudPct.toString()) &&
+            50 >= int.parse(weatherModel!.cloudPct.toString())) {
+          skyCondition = SkyCondition.fewClouds;
+        } else if (50 < int.parse(weatherModel!.cloudPct.toString()) &&
+            70 >= int.parse(weatherModel!.cloudPct.toString())) {
+          skyCondition = SkyCondition.partlyClouds;
+        } else if (70 < int.parse(weatherModel!.cloudPct.toString())) {
+          skyCondition = SkyCondition.cloudy;
+        }
+
+        sunRise = DateTime.fromMillisecondsSinceEpoch(weatherModel!.sunrise! * 1000);
+        sunSet = DateTime.fromMillisecondsSinceEpoch(weatherModel!.sunset! * 1000);
+        print("sky condition : " + skyCondition.toString());
+        print("sun rise  : " + sunRise.toString());
+        print("sun rise  : " + sunSet.toString());
         emit(HomeItemLoaded(weatherModel!));
+        _changePagingLoading();
       }
       emit(HomeItemLoaded(weatherModel!));
     } catch (e) {
