@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:weather_app/feature/home/service/home_service.dart';
 import 'package:weather_app/feature/home/viewmodel/home_cubit.dart';
 import 'package:weather_app/feature/home/widget/sky_condition_widget.dart';
 import 'package:weather_app/product/constants/color_constants.dart';
@@ -15,6 +17,19 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // List items = [];
+    // var data;
+    // Future<void> readJson() async {
+    //   var response = await rootBundle.loadString('assets/data/cities_and_coord.json');
+    //   data = await json.decode(response);
+    //   items = data["items"];
+    //   print("data $data");
+    // }
+
+    // readJson();
+    // for (var element in items) {
+    //   print("json city name : ${element["name"]}");
+    // }
     TextEditingController cityInputController = TextEditingController(); //! cubit'e kaldır
 
     return Scaffold(
@@ -188,13 +203,33 @@ class HomeView extends StatelessWidget {
                                   ],
                                 ),
                                 const Spacer(),
-                                Text(
-                                  "Sun Rise : ${DateFormat(' kk:mm').format(context.read<HomeCubit>().sunRise!)}",
-                                  style: const TextStyle(color: ColorConstants.lightGrey, fontSize: 12),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      "Sun Rise : ",
+                                      style: TextStyle(color: ColorConstants.lightGrey, fontSize: 12),
+                                    ),
+                                    Text(
+                                      DateFormat(' kk:mm').format(context.read<HomeCubit>().sunRise!),
+                                      style: const TextStyle(
+                                          color: ColorConstants.lightGrey, fontSize: 13, fontWeight: FontWeight.w700),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  "Sun Set : ${DateFormat(' kk:mm').format(context.read<HomeCubit>().sunSet!)}",
-                                  style: const TextStyle(color: ColorConstants.lightGrey, fontSize: 12),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      "Sun Set : ",
+                                      style: TextStyle(color: ColorConstants.lightGrey, fontSize: 12),
+                                    ),
+                                    Text(
+                                      DateFormat(' kk:mm').format(context.read<HomeCubit>().sunSet!),
+                                      style: const TextStyle(
+                                          color: ColorConstants.lightGrey, fontSize: 13, fontWeight: FontWeight.w700),
+                                    ),
+                                  ],
                                 ),
                                 const Text(
                                   "(UTC +3)",
