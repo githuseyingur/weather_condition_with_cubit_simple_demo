@@ -15,7 +15,6 @@ class HomeService extends IHomeService {
   };
 
   // Map<String, dynamic> queryParamsLocation = {
-  //   //!taşı
   //   "lat": "42",
   //   "lon": "42",
   // };

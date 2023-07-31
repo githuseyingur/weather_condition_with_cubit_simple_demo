@@ -9,5 +9,6 @@ class ColorConstants {
   static const Color darkGrey = Color(0xFF616161);
   static const Color hintTextColor = Color(0xFF666666);
   static const Color darkTextColor = Color(0xFF969696);
-  static const Color regularTextColor = Color(0xFFababab);
+  static const Color regularTextColor = Color(0xFFcfcfcf);
+  static const Color skyConditionGreenColor = Colors.greenAccent;
 }

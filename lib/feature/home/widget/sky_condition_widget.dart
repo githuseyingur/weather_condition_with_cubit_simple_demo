@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -19,16 +20,16 @@ class SkyConditionAnimationWidget extends StatelessWidget {
           return Column(children: [
             Lottie.asset("assets/animations/night.json", width: 280, height: 280),
             const Text(
-              "Sky Condition : Clear",
-              style: TextStyle(color: ColorConstants.darkTextColor, fontSize: 12),
+              "CLEAR",
+              style: TextStyle(color: ColorConstants.skyConditionGreenColor, fontSize: 16, fontWeight: FontWeight.w500),
             )
           ]);
         } else {
           return Column(children: [
             Lottie.asset("assets/animations/clear.json", width: 280, height: 280),
             const Text(
-              "Sky Condition : Clear",
-              style: TextStyle(color: ColorConstants.darkTextColor, fontSize: 12),
+              "Clear",
+              style: TextStyle(color: ColorConstants.skyConditionGreenColor, fontSize: 16, fontWeight: FontWeight.w500),
             )
           ]);
         }
@@ -38,36 +39,58 @@ class SkyConditionAnimationWidget extends StatelessWidget {
           return Column(children: [
             Lottie.asset("assets/animations/night.json", width: 280, height: 280),
             const Text(
-              "Sky Condition : Few Clouds",
-              style: TextStyle(color: ColorConstants.darkTextColor, fontSize: 12),
+              "Few Clouds",
+              style: TextStyle(color: ColorConstants.skyConditionGreenColor, fontSize: 16, fontWeight: FontWeight.w500),
             )
           ]);
         } else {
           return Column(children: [
             Lottie.asset("assets/animations/few_clouds.json", width: 280, height: 280),
             const Text(
-              "Sky Condition : Few Clouds",
-              style: TextStyle(color: ColorConstants.darkTextColor, fontSize: 12),
+              "Few Clouds",
+              style: TextStyle(color: ColorConstants.skyConditionGreenColor, fontSize: 16, fontWeight: FontWeight.w500),
             )
           ]);
         }
 
       case SkyCondition.partlyClouds:
-        return Column(children: [
-          Lottie.asset("assets/animations/partly_cloudy.json", width: 280, height: 280),
-          const Text(
-            "Sky Condition : Partly Cloudy",
-            style: TextStyle(color: ColorConstants.darkTextColor, fontSize: 12),
-          )
-        ]);
+        if (DateTime.now().compareTo(sunSet!) > 0) {
+          return Column(children: [
+            Lottie.asset("assets/animations/night.json", width: 280, height: 280),
+            const Text(
+              "Partly Cloudy",
+              style: TextStyle(color: ColorConstants.skyConditionGreenColor, fontSize: 16, fontWeight: FontWeight.w500),
+            )
+          ]);
+        } else {
+          return Column(children: [
+            Lottie.asset("assets/animations/partly_cloudy.json", width: 280, height: 280),
+            const Text(
+              "Partly Cloudy",
+              style: TextStyle(color: ColorConstants.skyConditionGreenColor, fontSize: 16, fontWeight: FontWeight.w500),
+            )
+          ]);
+        }
+
       case SkyCondition.cloudy:
-        return Column(children: [
-          Lottie.asset("assets/animations/cloud.json", width: 280, height: 280),
-          const Text(
-            "Sky Condition : Cloudy",
-            style: TextStyle(color: ColorConstants.darkTextColor, fontSize: 12),
-          )
-        ]);
+        if (DateTime.now().compareTo(sunSet!) > 0) {
+          return Column(children: [
+            Lottie.asset("assets/animations/night.json", width: 280, height: 280),
+            const Text(
+              "Cloudy",
+              style: TextStyle(color: ColorConstants.skyConditionGreenColor, fontSize: 16, fontWeight: FontWeight.w500),
+            )
+          ]);
+        } else {
+          return Column(children: [
+            Lottie.asset("assets/animations/cloud.json", width: 280, height: 280),
+            const Text(
+              "Cloudy",
+              style: TextStyle(color: ColorConstants.skyConditionGreenColor, fontSize: 16, fontWeight: FontWeight.w500),
+            )
+          ]);
+        }
+
       default:
         return const SizedBox(
           child: Text("loading..."),

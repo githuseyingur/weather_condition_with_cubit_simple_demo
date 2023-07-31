@@ -74,6 +74,9 @@ class HomeView extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                       child: Center(
@@ -87,13 +90,13 @@ class HomeView extends StatelessWidget {
                               children: [
                                 const Text(
                                   StringConstants.currentLocation,
-                                  style: TextStyle(fontSize: 9, color: ColorConstants.darkTextColor),
+                                  style: TextStyle(fontSize: 13, color: ColorConstants.darkTextColor),
                                 ),
                                 const SizedBox(
                                   height: SpaceConstants.verySmall,
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
                                   decoration: BoxDecoration(
                                       color: ColorConstants.darkGrey, borderRadius: BorderRadius.circular(12)),
                                   child: Text(
@@ -105,20 +108,46 @@ class HomeView extends StatelessWidget {
                                 const SizedBox(
                                   height: SpaceConstants.small,
                                 ),
-                                Row(
+                                Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      "${context.read<HomeCubit>().weatherModel!.temp}C°",
-                                      style: const TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold,
-                                          color: ColorConstants.regularTextColor),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "${context.read<HomeCubit>().weatherModel!.temp}C°",
+                                          style: const TextStyle(
+                                              fontSize: 26,
+                                              fontWeight: FontWeight.bold,
+                                              color: ColorConstants.regularTextColor),
+                                        ),
+                                        const SizedBox(
+                                          width: SpaceConstants.verySmall,
+                                        ),
+                                        int.parse(context.read<HomeCubit>().weatherModel!.temp.toString()) >
+                                                33 //! koşulları ayır (enum + widget)
+                                            ? const Icon(
+                                                Icons.fire_extinguisher,
+                                                color: Colors.deepOrangeAccent,
+                                              )
+                                            : int.parse(context.read<HomeCubit>().weatherModel!.temp.toString()) > 12
+                                                ? const Icon(
+                                                    Icons.check,
+                                                    color: Colors.greenAccent,
+                                                  )
+                                                : const Icon(
+                                                    Icons.snowing,
+                                                    color: Colors.blue,
+                                                  )
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: SpaceConstants.verySmall,
                                     ),
                                     Text(
                                       " (feels like : ${context.read<HomeCubit>().weatherModel!.feelsLike}C°)",
                                       style: const TextStyle(
-                                          fontSize: 12, fontWeight: FontWeight.w400, color: ColorConstants.darkGrey),
+                                          fontSize: 12, fontWeight: FontWeight.w400, color: ColorConstants.lightGrey),
                                     ),
                                   ],
                                 ),
@@ -135,27 +164,41 @@ class HomeView extends StatelessWidget {
                                               int.parse(context.read<HomeCubit>().weatherModel!.humidity.toString()) >
                                                       60
                                                   ? Colors.blue
-                                                  : ColorConstants.lightGrey),
+                                                  : ColorConstants.regularTextColor),
                                     ),
                                     const Spacer(),
                                     Lottie.asset("assets/animations/wind.json", width: 40, height: 40),
-                                    Text("${context.read<HomeCubit>().weatherModel!.windSpeed}"),
+                                    Text(
+                                      "${context.read<HomeCubit>().weatherModel!.windSpeed}",
+                                      style: const TextStyle(color: ColorConstants.regularTextColor),
+                                    ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: SpaceConstants.verySmall,
+                                const Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "     Humidity",
+                                      style: TextStyle(fontSize: 12, color: ColorConstants.lightGrey),
+                                    ),
+                                    Text(
+                                      "Wind Speed",
+                                      style: TextStyle(fontSize: 12, color: ColorConstants.lightGrey),
+                                    )
+                                  ],
                                 ),
+                                const Spacer(),
                                 Text(
                                   "Sun Rise : ${DateFormat(' kk:mm').format(context.read<HomeCubit>().sunRise!)}",
-                                  style: const TextStyle(color: ColorConstants.hintTextColor, fontSize: 12),
+                                  style: const TextStyle(color: ColorConstants.lightGrey, fontSize: 12),
                                 ),
                                 Text(
                                   "Sun Set : ${DateFormat(' kk:mm').format(context.read<HomeCubit>().sunSet!)}",
-                                  style: const TextStyle(color: ColorConstants.hintTextColor, fontSize: 12),
+                                  style: const TextStyle(color: ColorConstants.lightGrey, fontSize: 12),
                                 ),
                                 const Text(
                                   "(UTC +3)",
-                                  style: TextStyle(color: ColorConstants.hintTextColor, fontSize: 12),
+                                  style: TextStyle(color: ColorConstants.lightGrey, fontSize: 12),
                                 ),
                               ],
                             );
