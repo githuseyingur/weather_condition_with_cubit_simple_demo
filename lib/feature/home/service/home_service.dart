@@ -9,10 +9,11 @@ import 'package:weather_app/feature/home/service/i_home_service.dart';
 class HomeService extends IHomeService {
   HomeService(super.dio);
 
-  Map<String, dynamic> queryParamCityName = {
-    //! taşı
-    "city": "Konya",
-  };
+  double? lon;
+  double? lat;
+  // Map<String, dynamic> queryParamCityName = {
+  //   "city": "Konya",
+  // };
 
   // Map<String, dynamic> queryParamsLocation = {
   //   "lat": "42",
@@ -25,12 +26,17 @@ class HomeService extends IHomeService {
 
   @override
   Future<WeatherModel?> fetchWeatherByCityName() async {
-    String cityName = await getCityNameByCurrentLocation() ?? '';
-    queryParamCityName.update("city", (value) => cityName);
+    //String cityName = await getCityNameByCurrentLocation() ?? '';
+    Map<String, dynamic> queryParamCoord = {
+      //! taşı
+      "lat": lat,
+      "lon": lon
+    };
+    // queryParamCityName.update("city", (value) => cityName);
     try {
       final response = await dio.get(
         "",
-        queryParameters: queryParamCityName,
+        queryParameters: queryParamCoord,
         options: Options(
           headers: headers,
           followRedirects: false,
@@ -66,8 +72,8 @@ class HomeService extends IHomeService {
         await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).timeout(const Duration(seconds: 5));
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
+        lat = position.latitude,
+        lon = position.longitude,
       );
       print("city:${placemarks[0].administrativeArea}");
       return placemarks[0].administrativeArea.toString();
