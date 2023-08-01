@@ -1,9 +1,12 @@
 # Weather APP (BLoC - Cubit)
-#### Splash & Home : 
+#### Preview : 
+<img src="https://github.com/githuseyingur/weather_app_cubit/assets/120099096/eae3e868-54da-4f01-9f73-1196ab72e6f4"  width="280" height ="580">
 <img src="https://github.com/githuseyingur/weather_app_cubit/assets/120099096/32235e75-8d7d-46af-9311-4396bc2d2468"  width="280" height ="580">
 <img src="https://github.com/githuseyingur/weather_app_cubit/assets/120099096/f8aefbf0-b661-4ff2-a15a-c84a5eaa0d42"  width="280" height ="580">
 <img src="https://github.com/githuseyingur/weather_app_cubit/assets/120099096/591d7e80-8bfb-4ea1-8e40-225aa82eb6db"  width="280" height ="580">
 <img src="https://github.com/githuseyingur/weather_app_cubit/assets/120099096/ee6bf6f7-2361-4b3c-8c30-707cd29f1bce"  width="280" height ="580">
+
+
 
 #### Packages
 ```yaml
