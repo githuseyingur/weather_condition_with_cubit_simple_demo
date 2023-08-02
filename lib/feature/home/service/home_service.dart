@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:weather_app/feature/home/model/city_model.dart';
 import 'package:weather_app/feature/home/model/weather_model.dart';
 import 'package:weather_app/feature/home/service/i_home_service.dart';
 
@@ -78,6 +80,32 @@ class HomeService extends IHomeService {
       print("city:${placemarks[0].administrativeArea}");
       return placemarks[0].administrativeArea.toString();
     } catch (err) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<CityModel?>?> fetchCityItems() async {
+    try {
+      final response = await dio.get(
+        "",
+        options: Options(
+          followRedirects: false,
+          validateStatus: (status) {
+            return status! < 500;
+          },
+        ),
+      );
+      print(response);
+      var resData = response.data;
+      if (response.statusCode == HttpStatus.ok) {
+        List<CityModel?> result = jsonDecode(resData) as List<CityModel?>;
+        print("city list length : ${result.length}");
+        return result;
+      } else {
+        return null;
+      }
+    } catch (e) {
       return null;
     }
   }

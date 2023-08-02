@@ -28,46 +28,52 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  #Core
-  equatable: ^2.0.5
-
-  #Route
+ # Navigation
   auto_route: ^7.4.0
 
-  #States
+  cupertino_icons: ^1.0.2
+
+  #Request
+  dio: ^5.0.3
+
+  # Core
+  equatable: ^2.0.5
+  intl: ^0.18.1
+
+  flutter:
+    sdk: flutter
+
+  # State Management
   flutter_bloc: ^8.1.2
-  
-  #Location
+
+  # Responsive
+  flutter_screenutil: ^5.8.4
+
+  # Location
   geocoding: ^2.1.0
   geolocator: ^9.0.2
 
-  cupertino_icons: ^1.0.2
-  dio: ^5.0.3
-  
-  flutter:
-    sdk: flutter
+  # Animation
   lottie: ^2.5.0
-  intl: ^0.18.1
-
 
 dev_dependencies:
-  auto_route_generator: ^7.1.1
-  build_runner: ^2.3.3
+
+
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+
+    # Json
   json_annotation: ^4.8.0
   json_serializable: ^6.6.1
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+    # Navigation
+  auto_route_generator: ^7.1.1
+
+  build_runner: ^2.3.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -79,18 +85,14 @@ flutter:
     - assets/png/
     - assets/animations/
     - assets/data/
-   
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/feature/home/model/city_model.dart';
 import 'package:weather_app/feature/home/model/weather_model.dart';
 import 'package:weather_app/feature/home/service/i_home_service.dart';
 import 'package:weather_app/product/enums/sky_condition.dart';
@@ -14,10 +15,12 @@ class HomeCubit extends Cubit<HomeState> {
   SkyCondition? skyCondition;
   DateTime? sunRise;
   DateTime? sunSet;
-
+  List<CityModel>? cityList;
   bool isPagingLoading = false;
 
   Future<void> fetchItem() async {
+    cityList = (await homeService.fetchCityItems() ?? []).cast<CityModel>();
+    print("cubit city list lenght : ${cityList?.length}");
     _changePagingLoading();
 
     emit(HomeLoading(true));

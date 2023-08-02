@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,19 +15,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // List items = [];
-    // var data;
-    // Future<void> readJson() async {
-    //   var response = await rootBundle.loadString('assets/data/cities_and_coord.json');
-    //   data = await json.decode(response);
-    //   items = data["items"];
-    //   print("data $data");
-    // }
-
-    // readJson();
-    // for (var element in items) {
-    //   print("json city name : ${element["name"]}");
-    // }
+    // kaldır
     TextEditingController cityInputController = TextEditingController(); //! cubit'e kaldır
 
     return Scaffold(
@@ -38,7 +24,7 @@ class HomeView extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(
-              height: SpaceConstants.big,
+              height: SpaceConstants.normal,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -46,7 +32,7 @@ class HomeView extends StatelessWidget {
                 //! CITY PICKER KOY!
                 style: const TextStyle(color: ColorConstants.lightGrey),
                 decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0),
                     ),
@@ -85,7 +71,7 @@ class HomeView extends StatelessWidget {
               height: SpaceConstants.small,
             ),
             SizedBox(
-                height: context.dynamicHeight(0.76),
+                height: context.dynamicHeight(0.78),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: Card(
