@@ -1,8 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/feature/home/model/city_model.dart';
 import 'package:weather_app/feature/home/model/weather_model.dart';
+import 'package:weather_app/feature/home/service/home_service.dart';
 import 'package:weather_app/feature/home/service/i_home_service.dart';
 import 'package:weather_app/product/enums/sky_condition.dart';
+import 'package:weather_app/product/service/project_manager.dart';
 
 part 'home_state.dart';
 
@@ -15,12 +17,10 @@ class HomeCubit extends Cubit<HomeState> {
   SkyCondition? skyCondition;
   DateTime? sunRise;
   DateTime? sunSet;
-  List<CityModel>? cityList;
+  List<CityModel> cityList = [];
   bool isPagingLoading = false;
 
   Future<void> fetchItem() async {
-    cityList = (await homeService.fetchCityItems() ?? []).cast<CityModel>();
-    print("cubit city list lenght : ${cityList?.length}");
     _changePagingLoading();
 
     emit(HomeLoading(true));
@@ -53,6 +53,11 @@ class HomeCubit extends Cubit<HomeState> {
     } catch (e) {
       emit(HomeError(weatherModel.toString()));
     }
+  }
+
+  Future<void> fetchCityItems() async {
+    cityList = (await homeService.fetchCityItems())!;
+    print("cubit city list lenght : ${cityList.length}");
   }
 
   void _changePagingLoading() => isPagingLoading = !isPagingLoading;

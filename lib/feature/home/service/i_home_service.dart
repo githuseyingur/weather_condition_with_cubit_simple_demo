@@ -12,5 +12,5 @@ abstract class IHomeService {
   Future<String?> getCityNameByCurrentLocation();
 
 // get City List
-  Future<List<CityModel?>?> fetchCityItems();
+  Future<List<CityModel>?> fetchCityItems();
 }

@@ -12,7 +12,6 @@ class SkyConditionAnimationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SkyCondition? skyCondition = context.read<HomeCubit>().skyCondition;
-    DateTime? sunRise = context.read<HomeCubit>().sunRise;
     DateTime? sunSet = context.read<HomeCubit>().sunSet;
     switch (skyCondition) {
       case SkyCondition.clear:

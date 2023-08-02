@@ -85,21 +85,17 @@ class HomeService extends IHomeService {
   }
 
   @override
-  Future<List<CityModel?>?> fetchCityItems() async {
+  Future<List<CityModel>?> fetchCityItems() async {
     try {
       final response = await dio.get(
         "",
-        options: Options(
-          followRedirects: false,
-          validateStatus: (status) {
-            return status! < 500;
-          },
-        ),
       );
       print(response);
       var resData = response.data;
+
       if (response.statusCode == HttpStatus.ok) {
-        List<CityModel?> result = jsonDecode(resData) as List<CityModel?>;
+        List<CityModel>? result = (resData as List).map((e) => CityModel().fromJson(e)).toList();
+
         print("city list length : ${result.length}");
         return result;
       } else {

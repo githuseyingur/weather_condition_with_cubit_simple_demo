@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:weather_app/feature/home/service/home_service.dart';
 import 'package:weather_app/feature/home/viewmodel/home_cubit.dart';
 import 'package:weather_app/feature/home/widget/sky_condition_widget.dart';
 import 'package:weather_app/product/constants/color_constants.dart';
@@ -9,12 +10,14 @@ import 'package:weather_app/product/constants/space_constants.dart';
 import 'package:weather_app/product/constants/string_constants.dart';
 import 'package:weather_app/product/extension/responsive/responsive.dart';
 import 'package:intl/intl.dart';
+import 'package:weather_app/product/service/project_manager.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    HomeCubit(HomeService(ProjectNetworkManager.instance.cityService)).fetchCityItems();
     // kaldır
     TextEditingController cityInputController = TextEditingController(); //! cubit'e kaldır
 
