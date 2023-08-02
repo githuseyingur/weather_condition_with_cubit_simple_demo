@@ -1,17 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/feature/home/model/city_model.dart';
 import 'package:weather_app/feature/home/model/weather_model.dart';
-import 'package:weather_app/feature/home/service/home_service.dart';
 import 'package:weather_app/feature/home/service/i_home_service.dart';
 import 'package:weather_app/product/enums/sky_condition.dart';
-import 'package:weather_app/product/service/project_manager.dart';
 
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this.homeService) : super(HomeInitial());
 
-  final IHomeService homeService;
+  final IHomeService? homeService;
   WeatherModel? weatherModel = WeatherModel();
   String? currentLocationCity;
   SkyCondition? skyCondition;
@@ -25,8 +23,8 @@ class HomeCubit extends Cubit<HomeState> {
 
     emit(HomeLoading(true));
     try {
-      currentLocationCity = (await homeService.getCityNameByCurrentLocation());
-      weatherModel = (await homeService.fetchWeatherByCityName());
+      currentLocationCity = (await homeService!.getCityNameByCurrentLocation());
+      weatherModel = (await homeService!.fetchWeatherByCityName());
 
       if (weatherModel != null) {
         if (20 >= int.parse(weatherModel!.cloudPct.toString())) {
@@ -56,8 +54,29 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> fetchCityItems() async {
-    cityList = (await homeService.fetchCityItems())!;
+    cityList = (await homeService!.fetchCityItems())!;
     print("cubit city list lenght : ${cityList.length}");
+    for (var element in cityList) {
+      print("city name : ${element.name}");
+    }
+  }
+
+  List<CityModel> suggestionList = [];
+  String? hint;
+  void typeAheadFilter(String value) {
+    suggestionList.clear();
+
+    for (CityModel city in cityList) {
+      if (city.name!.contains(value)) {
+        suggestionList.add(city);
+      }
+    }
+
+    if (suggestionList.isNotEmpty) {
+      var firstSuggestion = suggestionList[0].name;
+
+      hint = firstSuggestion!;
+    }
   }
 
   void _changePagingLoading() => isPagingLoading = !isPagingLoading;

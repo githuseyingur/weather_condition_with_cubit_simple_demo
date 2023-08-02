@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:weather_app/feature/home/service/home_service.dart';
 import 'package:weather_app/feature/home/viewmodel/home_cubit.dart';
 import 'package:weather_app/feature/home/widget/sky_condition_widget.dart';
 import 'package:weather_app/product/constants/color_constants.dart';
@@ -10,14 +9,15 @@ import 'package:weather_app/product/constants/space_constants.dart';
 import 'package:weather_app/product/constants/string_constants.dart';
 import 'package:weather_app/product/extension/responsive/responsive.dart';
 import 'package:intl/intl.dart';
-import 'package:weather_app/product/service/project_manager.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
-
   @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
-    HomeCubit(HomeService(ProjectNetworkManager.instance.cityService)).fetchCityItems();
     // kaldır
     TextEditingController cityInputController = TextEditingController(); //! cubit'e kaldır
 
@@ -31,35 +31,70 @@ class HomeView extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TextFormField(
-                //! CITY PICKER KOY!
-                style: const TextStyle(color: ColorConstants.lightGrey),
-                decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
+              child: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+                return TextFormField(
+                  controller: cityInputController,
+                  onChanged: (value) {
+                    // FILTER LIST
+                    HomeCubit(null).typeAheadFilter(value);
+                  },
+                  //! CITY PICKER KOY!
+                  style: const TextStyle(color: ColorConstants.lightGrey),
+                  decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16.0),
-                        borderSide: const BorderSide(color: ColorConstants.lightGrey)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                        borderSide: const BorderSide(color: ColorConstants.primaryOrange)),
-                    hintText: 'Search City',
-                    hintStyle:
-                        const TextStyle(color: ColorConstants.hintTextColor, fontSize: 12, fontWeight: FontWeight.w400),
-                    prefixIcon: const Icon(Icons.search),
-                    prefixIconColor: ColorConstants.lightGrey,
-                    filled: true,
-                    fillColor: ColorConstants.searchBoxFillColor),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                          borderSide: const BorderSide(color: ColorConstants.lightGrey)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                          borderSide: const BorderSide(color: ColorConstants.primaryOrange)),
+                      hintText: context.read<HomeCubit>().hint ?? "Search City",
+                      hintStyle: const TextStyle(
+                          color: ColorConstants.hintTextColor, fontSize: 12, fontWeight: FontWeight.w400),
+                      prefixIcon: const Icon(Icons.search),
+                      prefixIconColor: ColorConstants.lightGrey,
+                      filled: true,
+                      fillColor: ColorConstants.searchBoxFillColor),
 
-                cursorColor: ColorConstants.primaryOrange,
-                cursorWidth: 1.6,
-                cursorHeight: 20,
-                textAlignVertical: TextAlignVertical.center,
-                controller: cityInputController,
-              ),
+                  cursorColor: ColorConstants.primaryOrange,
+                  cursorWidth: 1.6,
+                  cursorHeight: 20,
+                  textAlignVertical: TextAlignVertical.center,
+                );
+              }),
             ),
+            context.read<HomeCubit>().suggestionList.isNotEmpty || cityInputController.text.isNotEmpty
+                ? SizedBox(
+                    height: 200,
+                    child: ListView.separated(
+                      padding: const EdgeInsets.all(10),
+                      shrinkWrap: true,
+                      itemCount: context.read<HomeCubit>().suggestionList.length,
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemBuilder: (context, index) {
+                        return Text((context.read<HomeCubit>().suggestionList[index].name) ?? "",
+                            style: const TextStyle(color: Colors.white));
+                      },
+                    ),
+                  )
+                : SizedBox(
+                    height: 200,
+                    child: ListView.separated(
+                      padding: const EdgeInsets.all(10),
+                      shrinkWrap: true,
+                      itemCount: context.read<HomeCubit>().cityList.length,
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemBuilder: (context, index) {
+                        return Text(
+                          (context.read<HomeCubit>().cityList[index].name) ?? "",
+                          style: const TextStyle(color: Colors.white),
+                        );
+                      },
+                    ),
+                  ),
             const SizedBox(
               height: SpaceConstants.small,
             ),
