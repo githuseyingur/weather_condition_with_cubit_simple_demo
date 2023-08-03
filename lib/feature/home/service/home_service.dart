@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -9,13 +8,11 @@ import 'package:weather_app/feature/home/service/i_home_service.dart';
 
 class HomeService extends IHomeService {
   HomeService(super.dio);
-
-  double? lon;
-  double? lat;
+  double? longtitude;
+  double? lattitude;
   // Map<String, dynamic> queryParamCityName = {
   //   "city": "Konya",
   // };
-
   // Map<String, dynamic> queryParamsLocation = {
   //   "lat": "42",
   //   "lon": "42",
@@ -24,15 +21,23 @@ class HomeService extends IHomeService {
     //!taşı
     "X-Api-Key": "B2RcmoUpjxoV/dbSzaYhGg==AjPO6hEFRZDSBtdu",
   };
-
   @override
-  Future<WeatherModel?> fetchWeatherByCityName() async {
+  Future<WeatherModel?> fetchWeatherByCityName(String? lat, String? lon) async {
     //String cityName = await getCityNameByCurrentLocation() ?? '';
-    Map<String, dynamic> queryParamCoord = {
-      //! taşı
-      "lat": lat,
-      "lon": lon
-    };
+    Map<String, dynamic> queryParamCoord;
+    if (lattitude == null || longtitude == null) {
+      queryParamCoord = {
+        //! taşı
+        "lat": lat,
+        "lon": lon
+      };
+    } else {
+      queryParamCoord = {
+        //! taşı
+        "lat": lattitude,
+        "lon": longtitude
+      };
+    }
     // queryParamCityName.update("city", (value) => cityName);
     try {
       final response = await dio.get(
@@ -73,8 +78,8 @@ class HomeService extends IHomeService {
         await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).timeout(const Duration(seconds: 5));
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
-        lat = position.latitude,
-        lon = position.longitude,
+        lattitude = position.latitude,
+        longtitude = position.longitude,
       );
       print("city:${placemarks[0].administrativeArea}");
       return placemarks[0].administrativeArea.toString();
@@ -91,10 +96,8 @@ class HomeService extends IHomeService {
       );
       print(response);
       var resData = response.data;
-
       if (response.statusCode == HttpStatus.ok) {
         List<CityModel>? result = (resData as List).map((e) => CityModel().fromJson(e)).toList();
-
         print("city list length : ${result.length}");
         return result;
       } else {

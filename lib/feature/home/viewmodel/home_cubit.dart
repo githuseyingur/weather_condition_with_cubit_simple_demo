@@ -22,12 +22,12 @@ class HomeCubit extends Cubit<HomeState> {
   DateTime? sunSet;
   List<CityModel> cityList = [];
   bool isPagingLoading = false;
-  Future<void> fetchItem() async {
+  Future<void> fetchItem(String? lat, String? lon) async {
     _changePagingLoading();
     emit(state.copyWith(homeStates: HomeStates.loading));
     try {
       currentLocationCity = (await homeService!.getCityNameByCurrentLocation());
-      weatherModel = (await homeService!.fetchWeatherByCityName());
+      weatherModel = (await homeService!.fetchWeatherByCityName(lat, lon));
       if (weatherModel != null) {
         if (20 >= int.parse(weatherModel!.cloudPct.toString())) {
           skyCondition = SkyCondition.clear;
@@ -45,7 +45,7 @@ class HomeCubit extends Cubit<HomeState> {
         print("sky condition : " + skyCondition.toString());
         print("sun rise  : " + sunRise.toString());
         print("sun rise  : " + sunSet.toString());
-        emit(state.copyWith(weatherModel: weatherModel));
+        emit(state.copyWith(weatherModel: weatherModel, homeStates: HomeStates.loaded));
         _changePagingLoading();
       }
       // emit(HomeItemLoaded(weatherModel!));
@@ -66,12 +66,13 @@ class HomeCubit extends Cubit<HomeState> {
   List<CityModel> myList = [];
   String? hint;
   void typeAheadFilter(String value) {
+    emit(state.copyWith(cityList: cityList, suggestionCityList: myList));
     // suggestionList.clear();
     // emit(HomeLoading(true));
     // suggestionList.add(city);
     myList = cityList.where((element) => element.name!.toLowerCase().contains(value.toLowerCase())).toList();
     emit(state.copyWith(suggestionCityList: myList, cityList: cityList));
-    print('LLLLLLLLLLLLLIIIIIIIIIISSSSSSSSTTTTTTTTT 222222222 $myList');
+    print('LLLLLLLLLLLLLIIIIIIIIIISSSSSSSSTTTTTTTTT 222222222 ${myList}');
     // emit(HomeItemLoaded(weatherModel!));
     if (myList.isNotEmpty) {
       var firstSuggestion = myList[0].name;

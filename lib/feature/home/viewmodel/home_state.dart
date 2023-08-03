@@ -16,7 +16,7 @@ class HomeState extends Equatable {
         cityList: null, weatherModel: null, homeStates: HomeStates.initial, suggestionCityList: null);
   }
   @override
-  List<Object?> get props => [cityList, weatherModel, homeStates];
+  List<Object?> get props => [cityList, weatherModel, homeStates, suggestionCityList];
   HomeState copyWith({
     List<CityModel>? cityList,
     WeatherModel? weatherModel,

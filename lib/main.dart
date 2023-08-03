@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky, overlays: [SystemUiOverlay.bottom]); //! taşı
-    final HomeCubit homeCubit = HomeCubit(HomeService(ProjectNetworkManager.instance.weatherService))..fetchItem();
+    final HomeCubit homeCubit = HomeCubit(HomeService(ProjectNetworkManager.instance.weatherService))
+      ..fetchItem(null, null);
     return BlocProvider(
       create: (_) => homeCubit,
       child: MaterialApp(
