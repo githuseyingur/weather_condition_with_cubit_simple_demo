@@ -8,41 +8,44 @@
 #### Packages
 ```yaml
 dependencies:
-  #Core
-  equatable: ^2.0.5
-
-  #Route
+ # Navigation
   auto_route: ^7.4.0
+  cupertino_icons: ^1.0.2
 
-  #States
+  #Request
+  dio: ^5.0.3
+
+  # Core
+  equatable: ^2.0.5
+  intl: ^0.18.1
+
+  # State Management
   flutter_bloc: ^8.1.2
-  
-  #Location
+
+
+  # Location
   geocoding: ^2.1.0
   geolocator: ^9.0.2
 
-  cupertino_icons: ^1.0.2
-  dio: ^5.0.3
-  
-  flutter:
-    sdk: flutter
-  lottie: ^2.5.0
-  intl: ^0.18.1
-
+  # Animation
+  lottie: ^2.3.2
 
 dev_dependencies:
-  auto_route_generator: ^7.1.1
-  build_runner: ^2.3.3
-  flutter_test:
-    sdk: flutter
+
+    # Json
   json_annotation: ^4.8.0
   json_serializable: ^6.6.1
+
+    # Navigation
+  auto_route_generator: ^7.1.1
+  build_runner: ^2.3.3
 ```
 
 #### Features
 - BLoC (Cubit)
 - MVVM & Clean Architecture
-- Dio - Two different urls for request : city list & weather condition
+- Dio - Two different urls for request : City List & Weather Condition
 - Equatable
-- Getting Location Infos of User
-- 
+- Getting Location Informations of User
+- Dynamic Structure : Constants & Extensions & Enums
+- Responsive Design : Screen Util
