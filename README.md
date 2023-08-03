@@ -44,8 +44,8 @@ dev_dependencies:
 #### Features
 - BLoC (Cubit)
 - MVVM & Clean Architecture
-- Dio - Two different urls for request : City List & Weather Condition
 - Equatable
-- Getting Location Informations of User
-- Dynamic Structure : Constants & Extensions & Enums
+- Dio - City List & Weather Condition (Two different requests)
+- Location informations
+- Constants & Extensions & Enums
 - Responsive Design : Screen Util
