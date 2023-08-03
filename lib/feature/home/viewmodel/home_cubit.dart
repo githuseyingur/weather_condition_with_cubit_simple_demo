@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/feature/home/enum/home_states.dart';
 import 'package:weather_app/feature/home/model/city_model.dart';
@@ -15,20 +16,25 @@ class HomeCubit extends Cubit<HomeState> {
   }
   final IHomeService? homeService;
   late IHomeService? cityHomeService;
+
+  TextEditingController cityInputController = TextEditingController(); //! cubit'e kaldır
+
   WeatherModel? weatherModel = WeatherModel();
   String? currentLocationCity;
   SkyCondition? skyCondition;
   DateTime? sunRise;
   DateTime? sunSet;
   List<CityModel> cityList = [];
-  bool isPagingLoading = false;
+  bool? isCurrentLocation = true;
+
   Future<void> fetchItem(String? lat, String? lon) async {
-    _changePagingLoading();
     emit(state.copyWith(homeStates: HomeStates.loading));
     try {
       if (lat == null || lon == null) {
         currentLocationCity = (await homeService!.getCityNameByCurrentLocation());
-      } else {}
+      } else {
+        isCurrentLocation = false;
+      }
       print("CCCCCCCCCCCCİİİİİİİİİİİİİTYYYYYT:: $currentLocationCity");
       weatherModel = (await homeService!.fetchWeatherByCityName(lat, lon));
       if (weatherModel != null) {
@@ -45,12 +51,7 @@ class HomeCubit extends Cubit<HomeState> {
         }
         sunRise = DateTime.fromMillisecondsSinceEpoch(weatherModel!.sunrise! * 1000);
         sunSet = DateTime.fromMillisecondsSinceEpoch(weatherModel!.sunset! * 1000);
-        print("sky condition : " + skyCondition.toString());
-        print("sun rise  : " + sunRise.toString());
-        print("sun rise  : " + sunSet.toString());
-        print("weather model : $weatherModel");
         emit(state.copyWith(weatherModel: weatherModel, homeStates: HomeStates.loaded));
-        _changePagingLoading();
       }
       // emit(HomeItemLoaded(weatherModel!));
     } catch (e) {
@@ -68,24 +69,10 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   List<CityModel> myList = [];
-  String? hint;
   void typeAheadFilter(String value) {
     emit(state.copyWith(cityList: cityList, suggestionCityList: myList));
-    // suggestionList.clear();
-    // emit(HomeLoading(true));
-    // suggestionList.add(city);
     myList = cityList.where((element) => element.name!.toLowerCase().contains(value.toLowerCase())).toList();
     emit(state.copyWith(suggestionCityList: myList, cityList: cityList));
     print('LLLLLLLLLLLLLIIIIIIIIIISSSSSSSSTTTTTTTTT 222222222 ${myList}');
-    // emit(HomeItemLoaded(weatherModel!));
-    if (myList.isNotEmpty) {
-      var firstSuggestion = myList[0].name;
-      hint = firstSuggestion!;
-      // emit(state.copyWith(suggestionCityList: suggestionList));
-      // print('LLLLLLLLLLLLLIIIIIIIIIISSSSSSSSTTTTTTTTT $suggestionList');
-      // emit(state.copyWith(cityList: cityList));
-    }
   }
-
-  void _changePagingLoading() => isPagingLoading = !isPagingLoading;
 }

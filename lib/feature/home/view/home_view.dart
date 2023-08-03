@@ -15,7 +15,6 @@ class HomeView extends StatelessWidget {
   const HomeView({super.key});
   Widget build(BuildContext context) {
     // kaldır
-    TextEditingController cityInputController = TextEditingController(); //! cubit'e kaldır
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -27,7 +26,7 @@ class HomeView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
-                controller: cityInputController,
+                controller: context.read<HomeCubit>().cityInputController,
                 onChanged: (value) {
                   // FILTER LIST
                   context.read<HomeCubit>().typeAheadFilter(value);
@@ -47,7 +46,7 @@ class HomeView extends StatelessWidget {
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16.0),
                         borderSide: const BorderSide(color: ColorConstants.primaryOrange)),
-                    hintText: context.read<HomeCubit>().hint ?? "Search City",
+                    hintText: "Search City",
                     hintStyle:
                         const TextStyle(color: ColorConstants.hintTextColor, fontSize: 12, fontWeight: FontWeight.w400),
                     prefixIcon: const Icon(Icons.search),
@@ -65,7 +64,7 @@ class HomeView extends StatelessWidget {
               builder: (context, state) {
                 return state.cityList == null
                     ? const Text('')
-                    : (state.suggestionCityList == null || cityInputController.text == '')
+                    : (state.suggestionCityList == null || context.read<HomeCubit>().cityInputController.text == '')
                         ? const Text('')
                         : SizedBox(
                             height: 132,
@@ -86,6 +85,8 @@ class HomeView extends StatelessWidget {
                                       print("weather model ${state.suggestionCityList?[index].longitude}");
                                       context.read<HomeCubit>().fetchItem(state.suggestionCityList?[index].latitude,
                                           state.suggestionCityList?[index].longitude);
+                                      context.read<HomeCubit>().currentLocationCity =
+                                          state.suggestionCityList?[index].name;
                                     },
                                   ),
                                 );
@@ -126,8 +127,10 @@ class HomeView extends StatelessWidget {
                           } else if (state.homeStates == HomeStates.loaded) {
                             return Column(
                               children: [
-                                const Text(
-                                  StringConstants.currentLocation,
+                                Text(
+                                  context.read<HomeCubit>().isCurrentLocation!
+                                      ? StringConstants.currentLocation
+                                      : StringConstants.searchResult,
                                   style: TextStyle(fontSize: 13, color: ColorConstants.darkTextColor),
                                 ),
                                 const SizedBox(
