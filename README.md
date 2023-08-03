@@ -1,8 +1,9 @@
 # Weather APP (BLoC - Cubit)
-#### Preview : 
-<img src="https://github.com/githuseyingur/weather_app_cubit/assets/120099096/7c0f4720-ee62-4a6f-b3fd-dd480978aafb"  width="280" height ="580">
-<img src="https://github.com/githuseyingur/weather_app_cubit/assets/120099096/f8aefbf0-b661-4ff2-a15a-c84a5eaa0d42"  width="280" height ="580">
+#### Preview For Night: 
+<img src="https://github.com/githuseyingur/weather_app_cubit/assets/120099096/a8b642cb-1809-40ac-906a-2d60bb1f955d"  width="280" height ="580">
 
+
+<img src="https://github.com/githuseyingur/weather_app_cubit/assets/120099096/f8aefbf0-b661-4ff2-a15a-c84a5eaa0d42"  width="280" height ="580">
 
 
 #### Packages
