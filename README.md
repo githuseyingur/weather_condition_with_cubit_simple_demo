@@ -5,8 +5,6 @@
 
 
 
-
-
 #### Packages
 ```yaml
 dependencies:
@@ -40,3 +38,11 @@ dev_dependencies:
   json_annotation: ^4.8.0
   json_serializable: ^6.6.1
 ```
+
+#### Features
+- BLoC (Cubit)
+- MVVM & Clean Architecture
+- Dio - Two different urls for request : city list & weather condition
+- Equatable
+- Getting Location Infos of User
+- 
