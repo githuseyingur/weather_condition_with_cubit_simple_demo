@@ -3,7 +3,6 @@ description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
 # followed by an optional build number separated by a +.
@@ -17,10 +16,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
 version: 1.0.0+1
-
 environment:
   sdk: '>=2.19.6 <3.0.0'
-
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -30,59 +27,41 @@ environment:
 dependencies:
  # Navigation
   auto_route: ^7.4.0
-
   cupertino_icons: ^1.0.2
-
   #Request
   dio: ^5.0.3
-
   # Core
   equatable: ^2.0.5
   intl: ^0.18.1
-
   flutter:
     sdk: flutter
-
   # State Management
   flutter_bloc: ^8.1.2
-
   # Responsive
-  flutter_screenutil: ^5.8.4
-
   # Location
   geocoding: ^2.1.0
   geolocator: ^9.0.2
-
   # Animation
-  lottie: ^2.5.0
-
+  lottie: ^2.3.2
 dev_dependencies:
-
-
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-
     # Json
   json_annotation: ^4.8.0
   json_serializable: ^6.6.1
-
     # Navigation
   auto_route_generator: ^7.1.1
-
   build_runner: ^2.3.3
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/png/
     - assets/animations/
   # To add assets to your application, add an assets section, like this:
   # assets:

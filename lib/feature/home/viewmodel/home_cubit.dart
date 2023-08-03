@@ -1,15 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/feature/home/enum/home_states.dart';
 import 'package:weather_app/feature/home/model/city_model.dart';
 import 'package:weather_app/feature/home/model/weather_model.dart';
+import 'package:weather_app/feature/home/service/home_service.dart';
 import 'package:weather_app/feature/home/service/i_home_service.dart';
 import 'package:weather_app/product/enums/sky_condition.dart';
-
-part 'home_state.dart';
+import 'package:weather_app/product/service/project_manager.dart';
+import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit(this.homeService) : super(HomeInitial());
-
+  HomeCubit(this.homeService) : super(HomeState.initial()) {
+    cityHomeService = HomeService(ProjectNetworkManager.instance.cityService);
+    fetchCityItems();
+  }
   final IHomeService? homeService;
+  late IHomeService? cityHomeService;
   WeatherModel? weatherModel = WeatherModel();
   String? currentLocationCity;
   SkyCondition? skyCondition;
@@ -17,15 +22,12 @@ class HomeCubit extends Cubit<HomeState> {
   DateTime? sunSet;
   List<CityModel> cityList = [];
   bool isPagingLoading = false;
-
   Future<void> fetchItem() async {
     _changePagingLoading();
-
-    emit(HomeLoading(true));
+    emit(state.copyWith(homeStates: HomeStates.loading));
     try {
       currentLocationCity = (await homeService!.getCityNameByCurrentLocation());
       weatherModel = (await homeService!.fetchWeatherByCityName());
-
       if (weatherModel != null) {
         if (20 >= int.parse(weatherModel!.cloudPct.toString())) {
           skyCondition = SkyCondition.clear;
@@ -38,44 +40,45 @@ class HomeCubit extends Cubit<HomeState> {
         } else if (70 < int.parse(weatherModel!.cloudPct.toString())) {
           skyCondition = SkyCondition.cloudy;
         }
-
         sunRise = DateTime.fromMillisecondsSinceEpoch(weatherModel!.sunrise! * 1000);
         sunSet = DateTime.fromMillisecondsSinceEpoch(weatherModel!.sunset! * 1000);
         print("sky condition : " + skyCondition.toString());
         print("sun rise  : " + sunRise.toString());
         print("sun rise  : " + sunSet.toString());
-        emit(HomeItemLoaded(weatherModel!));
+        emit(state.copyWith(weatherModel: weatherModel));
         _changePagingLoading();
       }
-      emit(HomeItemLoaded(weatherModel!));
+      // emit(HomeItemLoaded(weatherModel!));
     } catch (e) {
-      emit(HomeError(weatherModel.toString()));
+      emit(state.copyWith(homeStates: HomeStates.error));
     }
   }
 
   Future<void> fetchCityItems() async {
-    cityList = (await homeService!.fetchCityItems())!;
+    cityList = (await cityHomeService!.fetchCityItems())!;
+    emit(state.copyWith(cityList: cityList));
     print("cubit city list lenght : ${cityList.length}");
     for (var element in cityList) {
-      print("city name : ${element.name}");
+      print("city e : ${element.name}");
     }
   }
 
-  List<CityModel> suggestionList = [];
+  List<CityModel> myList = [];
   String? hint;
   void typeAheadFilter(String value) {
-    suggestionList.clear();
-
-    for (CityModel city in cityList) {
-      if (city.name!.contains(value)) {
-        suggestionList.add(city);
-      }
-    }
-
-    if (suggestionList.isNotEmpty) {
-      var firstSuggestion = suggestionList[0].name;
-
+    // suggestionList.clear();
+    // emit(HomeLoading(true));
+    // suggestionList.add(city);
+    myList = cityList.where((element) => element.name!.toLowerCase().contains(value.toLowerCase())).toList();
+    emit(state.copyWith(suggestionCityList: myList, cityList: cityList));
+    print('LLLLLLLLLLLLLIIIIIIIIIISSSSSSSSTTTTTTTTT 222222222 $myList');
+    // emit(HomeItemLoaded(weatherModel!));
+    if (myList.isNotEmpty) {
+      var firstSuggestion = myList[0].name;
       hint = firstSuggestion!;
+      // emit(state.copyWith(suggestionCityList: suggestionList));
+      // print('LLLLLLLLLLLLLIIIIIIIIIISSSSSSSSTTTTTTTTT $suggestionList');
+      // emit(state.copyWith(cityList: cityList));
     }
   }
 
