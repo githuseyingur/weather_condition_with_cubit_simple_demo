@@ -26,7 +26,10 @@ class HomeCubit extends Cubit<HomeState> {
     _changePagingLoading();
     emit(state.copyWith(homeStates: HomeStates.loading));
     try {
-      currentLocationCity = (await homeService!.getCityNameByCurrentLocation());
+      if (lat == null || lon == null) {
+        currentLocationCity = (await homeService!.getCityNameByCurrentLocation());
+      } else {}
+      print("CCCCCCCCCCCCİİİİİİİİİİİİİTYYYYYT:: $currentLocationCity");
       weatherModel = (await homeService!.fetchWeatherByCityName(lat, lon));
       if (weatherModel != null) {
         if (20 >= int.parse(weatherModel!.cloudPct.toString())) {
@@ -45,6 +48,7 @@ class HomeCubit extends Cubit<HomeState> {
         print("sky condition : " + skyCondition.toString());
         print("sun rise  : " + sunRise.toString());
         print("sun rise  : " + sunSet.toString());
+        print("weather model : $weatherModel");
         emit(state.copyWith(weatherModel: weatherModel, homeStates: HomeStates.loaded));
         _changePagingLoading();
       }

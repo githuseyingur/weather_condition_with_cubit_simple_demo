@@ -82,6 +82,8 @@ class HomeView extends StatelessWidget {
                                     child: Text((state.suggestionCityList?[index].name) ?? "fdsafdsa",
                                         style: const TextStyle(color: Colors.white)),
                                     onPressed: () {
+                                      print("weather model ${state.suggestionCityList?[index].latitude}");
+                                      print("weather model ${state.suggestionCityList?[index].longitude}");
                                       context.read<HomeCubit>().fetchItem(state.suggestionCityList?[index].latitude,
                                           state.suggestionCityList?[index].longitude);
                                     },
@@ -212,12 +214,12 @@ class HomeView extends StatelessWidget {
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
+                                  children: const [
+                                    Text(
                                       "     Humidity",
                                       style: TextStyle(fontSize: 12, color: ColorConstants.lightGrey),
                                     ),
-                                    const Text(
+                                    Text(
                                       "Wind Speed",
                                       style: TextStyle(fontSize: 12, color: ColorConstants.lightGrey),
                                     )

@@ -25,17 +25,19 @@ class HomeService extends IHomeService {
   Future<WeatherModel?> fetchWeatherByCityName(String? lat, String? lon) async {
     //String cityName = await getCityNameByCurrentLocation() ?? '';
     Map<String, dynamic> queryParamCoord;
-    if (lattitude == null || longtitude == null) {
-      queryParamCoord = {
-        //! taşı
-        "lat": lat,
-        "lon": lon
-      };
-    } else {
+    print("weather model lattitude : $lattitude");
+    print("weather model lattitude : $longtitude");
+    if (lat == null || lon == null) {
       queryParamCoord = {
         //! taşı
         "lat": lattitude,
         "lon": longtitude
+      };
+    } else {
+      queryParamCoord = {
+        //! taşı
+        "lat": lat,
+        "lon": lon
       };
     }
     // queryParamCityName.update("city", (value) => cityName);
@@ -51,6 +53,8 @@ class HomeService extends IHomeService {
           },
         ),
       );
+      lattitude = null;
+      longtitude = null;
       print(response);
       var resData = response.data;
       if (response.statusCode == HttpStatus.ok) {
