@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky, overlays: [SystemUiOverlay.bottom]); //! taşı
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky, overlays: [SystemUiOverlay.bottom]);
     final HomeCubit homeCubit = HomeCubit(HomeService(ProjectNetworkManager.instance.weatherService))
       ..fetchItem(null, null);
     return BlocProvider(
@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         home: const SplashView(),
         theme: ThemeData.dark(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }

@@ -1,52 +1,43 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/feature/home/model/city_model.dart';
 import 'package:weather_app/feature/home/model/weather_model.dart';
 import 'package:weather_app/feature/home/service/i_home_service.dart';
+import 'package:weather_app/product/service/project_manager.dart';
 
 class HomeService extends IHomeService {
   HomeService(super.dio);
   double? longtitude;
   double? lattitude;
-  // Map<String, dynamic> queryParamCityName = {
-  //   "city": "Konya",
-  // };
-  // Map<String, dynamic> queryParamsLocation = {
-  //   "lat": "42",
-  //   "lon": "42",
-  // };
-  Map<String, dynamic> headers = {
-    //!taşı
-    "X-Api-Key": "B2RcmoUpjxoV/dbSzaYhGg==AjPO6hEFRZDSBtdu",
-  };
   @override
   Future<WeatherModel?> fetchWeatherByCityName(String? lat, String? lon) async {
     //String cityName = await getCityNameByCurrentLocation() ?? '';
     Map<String, dynamic> queryParamCoord;
-    print("weather model lattitude : $lattitude");
-    print("weather model lattitude : $longtitude");
     if (lat == null || lon == null) {
-      queryParamCoord = {
-        //! taşı
-        "lat": lattitude,
-        "lon": longtitude
-      };
+      if (lattitude == null || longtitude == null) {
+        Fluttertoast.showToast(
+            msg: 'İstek başarısız oldu. Lütfen internet bağlantınızı kontrol edin.',
+            textColor: Colors.white,
+            toastLength: Toast.LENGTH_LONG,
+            backgroundColor: Colors.red,
+            webPosition: "top");
+      } else {
+        ProjectNetworkManager.instance.setQueryParam(lattitude!, longtitude!);
+      }
     } else {
-      queryParamCoord = {
-        //! taşı
-        "lat": lat,
-        "lon": lon
-      };
+      ProjectNetworkManager.instance.setQueryParam(double.parse(lat), double.parse(lon));
     }
     // queryParamCityName.update("city", (value) => cityName);
     try {
       final response = await dio.get(
         "",
-        queryParameters: queryParamCoord,
+        queryParameters: ProjectNetworkManager.instance.queryParam,
         options: Options(
-          headers: headers,
+          headers: ProjectNetworkManager.instance.header,
           followRedirects: false,
           validateStatus: (status) {
             return status! < 500;
@@ -55,7 +46,6 @@ class HomeService extends IHomeService {
       );
       lattitude = null;
       longtitude = null;
-      print(response);
       var resData = response.data;
       if (response.statusCode == HttpStatus.ok) {
         var result = WeatherModel().fromJson(resData);
@@ -85,7 +75,6 @@ class HomeService extends IHomeService {
         lattitude = position.latitude,
         longtitude = position.longitude,
       );
-      print("city:${placemarks[0].administrativeArea}");
       return placemarks[0].administrativeArea.toString();
     } catch (err) {
       return null;
@@ -98,11 +87,9 @@ class HomeService extends IHomeService {
       final response = await dio.get(
         "",
       );
-      print(response);
       var resData = response.data;
       if (response.statusCode == HttpStatus.ok) {
         List<CityModel>? result = (resData as List).map((e) => CityModel().fromJson(e)).toList();
-        print("city list length : ${result.length}");
         return result;
       } else {
         return null;

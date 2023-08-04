@@ -16,9 +16,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
   final IHomeService? homeService;
   late IHomeService? cityHomeService;
-
-  TextEditingController cityInputController = TextEditingController(); //! cubit'e kaldır
-
+  final TextEditingController cityInputController = TextEditingController();
   WeatherModel? weatherModel = WeatherModel();
   String? currentLocationCity;
   SkyCondition? skyCondition;
@@ -26,7 +24,6 @@ class HomeCubit extends Cubit<HomeState> {
   DateTime? sunSet;
   List<CityModel> cityList = [];
   bool? isCurrentLocation = true;
-
   Future<void> fetchItem(String? lat, String? lon) async {
     emit(state.copyWith(homeStates: HomeStates.loading));
     try {
@@ -35,7 +32,6 @@ class HomeCubit extends Cubit<HomeState> {
       } else {
         isCurrentLocation = false;
       }
-      print("CCCCCCCCCCCCİİİİİİİİİİİİİTYYYYYT:: $currentLocationCity");
       weatherModel = (await homeService!.fetchWeatherByCityName(lat, lon));
       if (weatherModel != null) {
         if (20 >= int.parse(weatherModel!.cloudPct.toString())) {
@@ -62,10 +58,6 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> fetchCityItems() async {
     cityList = (await cityHomeService!.fetchCityItems())!;
     emit(state.copyWith(cityList: cityList));
-    print("cubit city list lenght : ${cityList.length}");
-    for (var element in cityList) {
-      print("city e : ${element.name}");
-    }
   }
 
   List<CityModel> myList = [];
@@ -73,6 +65,5 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(cityList: cityList, suggestionCityList: myList));
     myList = cityList.where((element) => element.name!.toLowerCase().contains(value.toLowerCase())).toList();
     emit(state.copyWith(suggestionCityList: myList, cityList: cityList));
-    print('LLLLLLLLLLLLLIIIIIIIIIISSSSSSSSTTTTTTTTT 222222222 ${myList}');
   }
 }
