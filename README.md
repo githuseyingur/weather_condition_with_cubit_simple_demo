@@ -51,5 +51,5 @@ dev_dependencies:
 
 
 ```dart
-//* Thanks : Sedat Dayan : https://github.com/Sedatdynn
+// Thanks to Sedat Dayan : https://github.com/Sedatdynn
 ```
