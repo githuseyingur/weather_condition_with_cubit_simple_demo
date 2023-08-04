@@ -48,3 +48,5 @@ dev_dependencies:
 - Location informations
 - Constants & Extensions & Enums
 - Responsive Design : Screen Util
+
+//* Thanks : Sedat Dayan : https://github.com/Sedatdynn
