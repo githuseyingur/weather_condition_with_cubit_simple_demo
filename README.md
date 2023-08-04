@@ -49,4 +49,7 @@ dev_dependencies:
 - Constants & Extensions & Enums
 - Responsive Design : Screen Util
 
+
+```dart
 //* Thanks : Sedat Dayan : https://github.com/Sedatdynn
+```
