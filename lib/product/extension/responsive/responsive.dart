@@ -8,7 +8,6 @@ extension ResponsiveExtension on BuildContext {
 }
 
 extension AllPaddings on BuildContext {
-  //! TANIMLAA
   EdgeInsets get zeroAllPadding => const EdgeInsets.all(0);
   EdgeInsets get lowAllPadding => const EdgeInsets.all(8);
   EdgeInsets get midAllPadding => const EdgeInsets.all(16);
@@ -25,4 +24,10 @@ extension VerticalPadding on BuildContext {
   EdgeInsets get lowVertical => const EdgeInsets.symmetric(vertical: 8);
   EdgeInsets get midVertical => const EdgeInsets.symmetric(vertical: 16);
   EdgeInsets get extremeHorizontal => const EdgeInsets.symmetric(vertical: 24);
+}
+
+extension SymmetricPadding on BuildContext {
+  EdgeInsets get lowSymmetric => const EdgeInsets.symmetric(vertical: 8, horizontal: 16);
+  EdgeInsets get midSymmetric => const EdgeInsets.symmetric(vertical: 16, horizontal: 24);
+  EdgeInsets get extremeSymmetric => const EdgeInsets.symmetric(vertical: 24, horizontal: 32);
 }

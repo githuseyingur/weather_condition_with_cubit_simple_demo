@@ -13,8 +13,8 @@ import '../viewmodel/home_state.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
+  @override
   Widget build(BuildContext context) {
-    // kaldır
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -24,7 +24,7 @@ class HomeView extends StatelessWidget {
               height: SpaceConstants.normal,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: context.lowSymmetric,
               child: TextFormField(
                 controller: context.read<HomeCubit>().cityInputController,
                 onChanged: (value) {
@@ -33,7 +33,6 @@ class HomeView extends StatelessWidget {
                   // HomeCubit(null).typeAheadFilter(value);
                 },
                 onTap: () {},
-                //! CITY PICKER KOY!
                 style: const TextStyle(color: ColorConstants.lightGrey),
                 decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -74,15 +73,12 @@ class HomeView extends StatelessWidget {
                               itemCount: state.suggestionCityList!.length,
                               separatorBuilder: (context, index) => const Divider(),
                               itemBuilder: (context, index) {
-                                print('LENGTHHHHH ${state.suggestionCityList!.length}');
                                 return SizedBox(
                                   height: 34,
                                   child: TextButton(
                                     child: Text((state.suggestionCityList?[index].name) ?? "fdsafdsa",
                                         style: const TextStyle(color: Colors.white)),
                                     onPressed: () {
-                                      print("weather model ${state.suggestionCityList?[index].latitude}");
-                                      print("weather model ${state.suggestionCityList?[index].longitude}");
                                       context.read<HomeCubit>().fetchItem(state.suggestionCityList?[index].latitude,
                                           state.suggestionCityList?[index].longitude);
                                       context.read<HomeCubit>().currentLocationCity =
