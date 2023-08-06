@@ -49,7 +49,7 @@ dev_dependencies:
 - MVVM & Clean Architecture
 - Equatable
 - Dio - City List & Weather Condition (Two different requests)
-- Location informations
+- Location informations (Geocoding & Geolocator)
 - Constants & Extensions & Enums
 - Responsive Design : Screen Util
 
