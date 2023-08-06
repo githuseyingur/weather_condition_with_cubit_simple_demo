@@ -1,6 +1,10 @@
 # Weather APP (BLoC - Cubit)
+#### Preview For Morning: 
+<img src="https://github.com/githuseyingur/weather_app_cubit/assets/120099096/2da8db57-24da-49ba-90b9-e00c87656665"  width="280" height ="580">
+
 #### Preview For Night: 
 <img src="https://github.com/githuseyingur/weather_app_cubit/assets/120099096/a8b642cb-1809-40ac-906a-2d60bb1f955d"  width="280" height ="580">
+
 
 
 
