@@ -54,6 +54,6 @@ dev_dependencies:
 - Responsive Design : Screen Util
 
 
-```dart
-// Thanks to Sedat Dayan : https://github.com/Sedatdynn
-```
+
+###### Thanks to Sedat Dayan : https://github.com/Sedatdynn
+
