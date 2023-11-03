@@ -51,7 +51,7 @@ dev_dependencies:
 - Dio - City List & Weather Condition (Two different requests)
 - Location informations (Geocoding & Geolocator)
 - Constants & Extensions & Enums
-- Responsive Design : Screen Util
+- Responsive Design
 
 <br><br>
 
