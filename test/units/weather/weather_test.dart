@@ -19,6 +19,8 @@ void main() {
     expect(response != null, true);
     expect(response is WeatherModel, true);
     expect((response!.maxTemp! - response.minTemp!).isNegative, false);
+    if (!(-20 < response.temp! && response.temp! < 50))
+      throw "temp is not in range";
   });
 
   test('Get City List', () async {
