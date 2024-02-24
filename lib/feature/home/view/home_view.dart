@@ -32,22 +32,29 @@ class HomeView extends StatelessWidget {
                   context.read<HomeCubit>().typeAheadFilter(value);
                   // HomeCubit(null).typeAheadFilter(value);
                 },
-                onTap: () {},
+                onTap: () {
+                  context.read<HomeCubit>().changeSuggestionVisible();
+                },
                 style: const TextStyle(color: ColorConstants.lightGrey),
                 decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0),
                     ),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16.0),
-                        borderSide: const BorderSide(color: ColorConstants.lightGrey)),
+                        borderSide:
+                            const BorderSide(color: ColorConstants.lightGrey)),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16.0),
-                        borderSide: const BorderSide(color: ColorConstants.primaryOrange)),
+                        borderSide: const BorderSide(
+                            color: ColorConstants.primaryOrange)),
                     hintText: "Search City",
-                    hintStyle:
-                        const TextStyle(color: ColorConstants.hintTextColor, fontSize: 12, fontWeight: FontWeight.w400),
+                    hintStyle: const TextStyle(
+                        color: ColorConstants.hintTextColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400),
                     prefixIcon: const Icon(Icons.search),
                     prefixIconColor: ColorConstants.lightGrey,
                     filled: true,
@@ -63,30 +70,52 @@ class HomeView extends StatelessWidget {
               builder: (context, state) {
                 return state.cityList == null
                     ? const Text('')
-                    : (state.suggestionCityList == null || context.read<HomeCubit>().cityInputController.text == '')
+                    : (state.suggestionCityList == null ||
+                            context
+                                    .read<HomeCubit>()
+                                    .cityInputController
+                                    .text ==
+                                '')
                         ? const Text('')
-                        : SizedBox(
-                            height: 132,
-                            child: ListView.separated(
-                              padding: const EdgeInsets.all(10),
-                              shrinkWrap: true,
-                              itemCount: state.suggestionCityList!.length,
-                              separatorBuilder: (context, index) => const Divider(),
-                              itemBuilder: (context, index) {
-                                return SizedBox(
-                                  height: 34,
-                                  child: TextButton(
-                                    child: Text((state.suggestionCityList?[index].name) ?? "fdsafdsa",
-                                        style: const TextStyle(color: Colors.white)),
-                                    onPressed: () {
-                                      context.read<HomeCubit>().fetchItem(state.suggestionCityList?[index].latitude,
-                                          state.suggestionCityList?[index].longitude);
-                                      context.read<HomeCubit>().currentLocationCity =
-                                          state.suggestionCityList?[index].name;
-                                    },
-                                  ),
-                                );
-                              },
+                        : Visibility(
+                            visible: state.isListVisible,
+                            child: SizedBox(
+                              height: 132,
+                              child: ListView.separated(
+                                padding: const EdgeInsets.all(10),
+                                shrinkWrap: true,
+                                itemCount: state.suggestionCityList!.length,
+                                separatorBuilder: (context, index) =>
+                                    const Divider(),
+                                itemBuilder: (context, index) {
+                                  return SizedBox(
+                                    height: 34,
+                                    child: TextButton(
+                                      child: Text(
+                                          (state.suggestionCityList?[index]
+                                                  .name) ??
+                                              "",
+                                          style: const TextStyle(
+                                              color: Colors.white)),
+                                      onPressed: () {
+                                        context
+                                            .read<HomeCubit>()
+                                            .changeSuggestionVisible();
+                                        context.read<HomeCubit>().fetchItem(
+                                            state.suggestionCityList?[index]
+                                                .latitude,
+                                            state.suggestionCityList?[index]
+                                                .longitude);
+                                        context
+                                                .read<HomeCubit>()
+                                                .currentLocationCity =
+                                            state.suggestionCityList?[index]
+                                                .name;
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           );
               },
@@ -98,7 +127,8 @@ class HomeView extends StatelessWidget {
               width: context.dynamicWidth(0.72),
               child: ElevatedButton(
                   onPressed: () {},
-                  style: ElevatedButton.styleFrom(backgroundColor: ColorConstants.primaryOrange),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorConstants.primaryOrange),
                   child: const Text("Search")),
             ),
             const SizedBox(
@@ -107,16 +137,20 @@ class HomeView extends StatelessWidget {
             SizedBox(
                 height: context.dynamicHeight(0.78),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 20),
                       child: Center(
-                        child: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-                          if (state.homeStates == HomeStates.initial || state.homeStates == HomeStates.loading) {
+                        child: BlocBuilder<HomeCubit, HomeState>(
+                            builder: (context, state) {
+                          if (state.homeStates == HomeStates.initial ||
+                              state.homeStates == HomeStates.loading) {
                             return const CircularProgressIndicator(
                               color: ColorConstants.darkGrey,
                             );
@@ -127,18 +161,25 @@ class HomeView extends StatelessWidget {
                                   context.read<HomeCubit>().isCurrentLocation!
                                       ? StringConstants.currentLocation
                                       : StringConstants.searchResult,
-                                  style: TextStyle(fontSize: 13, color: ColorConstants.darkTextColor),
+                                  style: const TextStyle(
+                                      fontSize: 13,
+                                      color: ColorConstants.darkTextColor),
                                 ),
                                 const SizedBox(
                                   height: SpaceConstants.verySmall,
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 60, vertical: 15),
                                   decoration: BoxDecoration(
-                                      color: ColorConstants.darkGrey, borderRadius: BorderRadius.circular(12)),
+                                      color: ColorConstants.darkGrey,
+                                      borderRadius: BorderRadius.circular(12)),
                                   child: Text(
-                                    context.read<HomeCubit>().currentLocationCity ??
-                                        StringConstants.getCityLocationErrorText,
+                                    context
+                                            .read<HomeCubit>()
+                                            .currentLocationCity ??
+                                        StringConstants
+                                            .getCityLocationErrorText,
                                     style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
@@ -149,25 +190,36 @@ class HomeView extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           "${context.read<HomeCubit>().weatherModel!.temp}C°",
                                           style: const TextStyle(
                                               fontSize: 26,
                                               fontWeight: FontWeight.bold,
-                                              color: ColorConstants.regularTextColor),
+                                              color: ColorConstants
+                                                  .regularTextColor),
                                         ),
                                         const SizedBox(
                                           width: SpaceConstants.verySmall,
                                         ),
-                                        int.parse(context.read<HomeCubit>().weatherModel!.temp.toString()) >
+                                        int.parse(context
+                                                    .read<HomeCubit>()
+                                                    .weatherModel!
+                                                    .temp
+                                                    .toString()) >
                                                 33 //! koşulları ayır (enum + widget)
                                             ? const Icon(
                                                 Icons.fire_extinguisher,
                                                 color: Colors.deepOrangeAccent,
                                               )
-                                            : int.parse(context.read<HomeCubit>().weatherModel!.temp.toString()) > 12
+                                            : int.parse(context
+                                                        .read<HomeCubit>()
+                                                        .weatherModel!
+                                                        .temp
+                                                        .toString()) >
+                                                    12
                                                 ? const Icon(
                                                     Icons.check,
                                                     color: Colors.greenAccent,
@@ -184,7 +236,9 @@ class HomeView extends StatelessWidget {
                                     Text(
                                       " (feels like : ${context.read<HomeCubit>().weatherModel!.feelsLike}C°)",
                                       style: const TextStyle(
-                                          fontSize: 12, fontWeight: FontWeight.w400, color: ColorConstants.lightGrey),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: ColorConstants.lightGrey),
                                     ),
                                   ],
                                 ),
@@ -193,34 +247,49 @@ class HomeView extends StatelessWidget {
                                     child: SkyConditionAnimationWidget()),
                                 Row(
                                   children: [
-                                    Lottie.asset("assets/animations/humidity.json", width: 40, height: 40),
+                                    Lottie.asset(
+                                        "assets/animations/humidity.json",
+                                        width: 40,
+                                        height: 40),
                                     Text(
                                       "${context.read<HomeCubit>().weatherModel!.humidity}",
                                       style: TextStyle(
-                                          color:
-                                              int.parse(context.read<HomeCubit>().weatherModel!.humidity.toString()) >
-                                                      60
-                                                  ? Colors.blue
-                                                  : ColorConstants.regularTextColor),
+                                          color: int.parse(context
+                                                      .read<HomeCubit>()
+                                                      .weatherModel!
+                                                      .humidity
+                                                      .toString()) >
+                                                  60
+                                              ? Colors.blue
+                                              : ColorConstants
+                                                  .regularTextColor),
                                     ),
                                     const Spacer(),
-                                    Lottie.asset("assets/animations/wind.json", width: 40, height: 40),
+                                    Lottie.asset("assets/animations/wind.json",
+                                        width: 40, height: 40),
                                     Text(
                                       "${context.read<HomeCubit>().weatherModel!.windSpeed}",
-                                      style: const TextStyle(color: ColorConstants.regularTextColor),
+                                      style: const TextStyle(
+                                          color:
+                                              ColorConstants.regularTextColor),
                                     ),
                                   ],
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: const [
+                                const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
                                     Text(
                                       "     Humidity",
-                                      style: TextStyle(fontSize: 12, color: ColorConstants.lightGrey),
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: ColorConstants.lightGrey),
                                     ),
                                     Text(
                                       "Wind Speed",
-                                      style: TextStyle(fontSize: 12, color: ColorConstants.lightGrey),
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: ColorConstants.lightGrey),
                                     )
                                   ],
                                 ),
@@ -230,12 +299,17 @@ class HomeView extends StatelessWidget {
                                   children: [
                                     const Text(
                                       "Sun Rise : ",
-                                      style: TextStyle(color: ColorConstants.lightGrey, fontSize: 12),
+                                      style: TextStyle(
+                                          color: ColorConstants.lightGrey,
+                                          fontSize: 12),
                                     ),
                                     Text(
-                                      DateFormat(' kk:mm').format(context.read<HomeCubit>().sunRise!),
+                                      DateFormat(' kk:mm').format(
+                                          context.read<HomeCubit>().sunRise!),
                                       style: const TextStyle(
-                                          color: ColorConstants.lightGrey, fontSize: 13, fontWeight: FontWeight.w700),
+                                          color: ColorConstants.lightGrey,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w700),
                                     ),
                                   ],
                                 ),
@@ -244,18 +318,25 @@ class HomeView extends StatelessWidget {
                                   children: [
                                     const Text(
                                       "Sun Set : ",
-                                      style: TextStyle(color: ColorConstants.lightGrey, fontSize: 12),
+                                      style: TextStyle(
+                                          color: ColorConstants.lightGrey,
+                                          fontSize: 12),
                                     ),
                                     Text(
-                                      DateFormat(' kk:mm').format(context.read<HomeCubit>().sunSet!),
+                                      DateFormat(' kk:mm').format(
+                                          context.read<HomeCubit>().sunSet!),
                                       style: const TextStyle(
-                                          color: ColorConstants.lightGrey, fontSize: 13, fontWeight: FontWeight.w700),
+                                          color: ColorConstants.lightGrey,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w700),
                                     ),
                                   ],
                                 ),
                                 const Text(
                                   "(UTC +3)",
-                                  style: TextStyle(color: ColorConstants.lightGrey, fontSize: 12),
+                                  style: TextStyle(
+                                      color: ColorConstants.lightGrey,
+                                      fontSize: 12),
                                 ),
                               ],
                             );

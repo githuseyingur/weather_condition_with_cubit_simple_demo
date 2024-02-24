@@ -11,7 +11,7 @@ import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this.homeService) : super(HomeState.initial()) {
-    cityHomeService = HomeService(ProjectNetworkManager.instance.cityService);
+    cityHomeService = HomeService(ProjectNetworkManager.instance.cityDio);
     fetchCityItems();
   }
   final IHomeService? homeService;
@@ -28,7 +28,8 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(homeStates: HomeStates.loading));
     try {
       if (lat == null || lon == null) {
-        currentLocationCity = (await homeService!.getCityNameByCurrentLocation());
+        currentLocationCity =
+            (await homeService!.getCityNameByCurrentLocation());
       } else {
         isCurrentLocation = false;
       }
@@ -45,9 +46,12 @@ class HomeCubit extends Cubit<HomeState> {
         } else if (70 < int.parse(weatherModel!.cloudPct.toString())) {
           skyCondition = SkyCondition.cloudy;
         }
-        sunRise = DateTime.fromMillisecondsSinceEpoch(weatherModel!.sunrise! * 1000);
-        sunSet = DateTime.fromMillisecondsSinceEpoch(weatherModel!.sunset! * 1000);
-        emit(state.copyWith(weatherModel: weatherModel, homeStates: HomeStates.loaded));
+        sunRise =
+            DateTime.fromMillisecondsSinceEpoch(weatherModel!.sunrise! * 1000);
+        sunSet =
+            DateTime.fromMillisecondsSinceEpoch(weatherModel!.sunset! * 1000);
+        emit(state.copyWith(
+            weatherModel: weatherModel, homeStates: HomeStates.loaded));
       }
       // emit(HomeItemLoaded(weatherModel!));
     } catch (e) {
@@ -60,10 +64,17 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(cityList: cityList));
   }
 
+  void changeSuggestionVisible() {
+    emit(state.copyWith(isListVisible: !state.isListVisible));
+  }
+
   List<CityModel> myList = [];
   void typeAheadFilter(String value) {
     emit(state.copyWith(cityList: cityList, suggestionCityList: myList));
-    myList = cityList.where((element) => element.name!.toLowerCase().contains(value.toLowerCase())).toList();
+    myList = cityList
+        .where((element) =>
+            element.name!.toLowerCase().contains(value.toLowerCase()))
+        .toList();
     emit(state.copyWith(suggestionCityList: myList, cityList: cityList));
   }
 }
